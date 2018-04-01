@@ -19,5 +19,6 @@ if [ -f /etc/ntp.conf.backup ]
 	 then
 		echo "NOTICE: /etc/ntp.conf was changed. Calculated diff: $GETDIFF"
 		cp /etc/ntp.conf.backup /etc/ntp.conf
+		systemctl restart ntp
 	fi
 fi
