@@ -8,8 +8,6 @@ Installed=`dpkg -l | grep ntp`
 if [ -z "$Installed" ]
 	then
 		apt install ntp -y
-#	else
-#		echo "NTP Already installed"
 fi
 
 # Rewrite NTP server's DNS name if /etc/ntp.conf exists ////////////////////////
@@ -27,9 +25,4 @@ chmod +x "$WD/ntp_verify.sh"
 CTP='/var/spool/cron/crontabs/root'
 PATH="PATH=$WD:$PATH"
 CRONJOB="* * * * * /bin/bash $WD/ntp_verify.sh"
-CRONS=`crontab -l`
-echo "${CRONS}" | crontab -
-echo "${CRONJOB}" | crontab -
-#echo "$PATH" > "$CTP"
-#echo $CRONS >> "$CTP" 
-#echo "$CRONJOB" >> "$CTP"
+( crontab -l | cat; echo "$CRONJOB" ) | crontab -
