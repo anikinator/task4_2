@@ -14,7 +14,6 @@ fi
 
 # Rewrite NTP server's DNS name if /etc/ntp.conf exists ////////////////////////
 # and make backup /etc/ntp.conf
-#sed -i.backup '/pool/d' /etc/ntp.conf
 if [ -f /etc/ntp.conf ]
 	then
 		sed -i.original '/pool /d; /more information/a pool ua.pool.ntp.org iburst' /etc/ntp.conf
@@ -27,8 +26,10 @@ WD=`pwd`
 chmod +x "$WD/ntp_verify.sh"
 CTP='/var/spool/cron/crontabs/root'
 PATH="PATH=$WD:$PATH"
-CRONJOB="* * * * * $WD/ntp_verify.sh"
-#echo "${PATH}";"${WD}/ntp_verify.sh" | crontab -
-echo "$PATH" > "$CTP"
+CRONJOB="* * * * * /bin/bash $WD/ntp_verify.sh"
+CRONS=`crontab -l`
+echo "${CRONS}" | crontab -
+echo "${CRONJOB}" | crontab -
+#echo "$PATH" > "$CTP"
 #echo $CRONS >> "$CTP" 
-echo "$CRONJOB" >> "$CTP"
+#echo "$CRONJOB" >> "$CTP"

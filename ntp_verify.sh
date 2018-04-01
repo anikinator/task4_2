@@ -2,7 +2,7 @@
 
 # Verify NTP service and configuration
 
-# Check service status and run if not active /////////////////////////
+# Check service status and run if not active 
 
 NTPState=`systemctl is-active ntp` 
 
@@ -14,10 +14,10 @@ fi
 # Get changes and restore ntp.conf
 if [ -f /etc/ntp.conf.backup ]
  then
-	GETDIFF=`diff /etc/ntp.conf /etc/ntp.conf.backup`
+	GETDIFF=`diff /etc/ntp.conf.backup /etc/ntp.conf`
 	if [ -n "$GETDIFF" ]
 	 then
-		echo $GETDIFF
+		echo "NOTICE: /etc/ntp.conf was changed. Calculated diff: $GETDIFF"
 		cp /etc/ntp.conf.backup /etc/ntp.conf
 	fi
 fi
